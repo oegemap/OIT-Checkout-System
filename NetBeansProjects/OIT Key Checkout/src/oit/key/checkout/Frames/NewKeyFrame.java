@@ -5,14 +5,14 @@
 package oit.key.checkout.Frames;
 import java.lang.Boolean;
 import oit.key.checkout.work.NewKey;
-import oit.key.checkout.Objects.KeyObject;
-
+import oit.key.checkout.Objects.barcodeObject;
+import oit.key.checkout.shared;
 /**
  *
  * @author phillip.oegema
  */
 public class NewKeyFrame extends javax.swing.JFrame {
-
+    static shared shared = null;
     /**
      * Creates new form NewKeyFrame
      */
@@ -103,10 +103,11 @@ public class NewKeyFrame extends javax.swing.JFrame {
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
         NewKey nk = new NewKey();
-        KeyObject key = nk.createNewKey(jTextFieldName.getText(),
-                jTextFieldBarcode.getText(), jTextFieldDescription.getText());
+        barcodeObject key = nk.createNewKey(jTextFieldName.getText(),
+                jTextFieldBarcode.getText(), jTextFieldDescription.getText(), shared);
 
         if (key != null) {
+            shared.addObject(key);
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButtonCreateActionPerformed
@@ -114,7 +115,7 @@ public class NewKeyFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(shared s) {
         /*
          * Set the Nimbus look and feel
          */
@@ -145,6 +146,7 @@ public class NewKeyFrame extends javax.swing.JFrame {
         /*
          * Create and display the form
          */
+        shared = s;
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {

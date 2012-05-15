@@ -89,7 +89,7 @@ public class AdminControlPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemNewUserActionPerformed
 
     private void jMenuItemNewKeyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewKeyActionPerformed
-        NewKeyFrame.main(null);
+        NewKeyFrame.main(shared);
     }//GEN-LAST:event_jMenuItemNewKeyActionPerformed
 
     /**

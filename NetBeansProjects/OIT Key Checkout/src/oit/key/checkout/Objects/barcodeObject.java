@@ -4,14 +4,17 @@
  */
 package oit.key.checkout.Objects;
 
+import java.io.Serializable;
 /**
  *
  * @author phillip.oegema
  */
-public class KeyObject {
+public class barcodeObject implements Serializable{
     private String name;
     private String barcode;
+    private int permissions;
     private String description;
+    private char type; //'k' for key 'u' for user
 
     public String getBarcode() {
         return barcode;
@@ -36,4 +39,22 @@ public class KeyObject {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(int permissions) {
+        this.permissions = permissions;
+    }
+
+    public char getType() {
+        return type;
+    }
+
+    public void setType(char type) {
+        this.type = type;
+    }
+    
+    
 }

@@ -4,7 +4,7 @@
  */
 package oit.key.checkout.work;
 
-import oit.key.checkout.Objects.UserObject;
+import oit.key.checkout.Objects.barcodeObject;
 import java.lang.Boolean;
 import javax.swing.JOptionPane;
 import oit.key.checkout.shared;
@@ -13,9 +13,9 @@ import oit.key.checkout.shared;
  * @author phillip.oegema
  */
 public class NewUser {
-    shared shared = null;
+    shared shared;
     
- public UserObject createNewUser(String name, String barcode, int permissions, shared s){
+ public barcodeObject createNewUser(String name, String barcode, int permissions, shared s){
       shared = s;
       
       Boolean unique;
@@ -30,11 +30,13 @@ public class NewUser {
         }
        
         else{
-            UserObject user = new UserObject();
+            barcodeObject user = new barcodeObject();
     
             user.setName(name);
             user.setBarcode(barcode);
             user.setPermissions(permissions);
+            user.setType('u');
+            
             unique = checkExistingCodes(user);
             if(!unique)
                 return null;
@@ -43,17 +45,10 @@ public class NewUser {
         }
 }
 
- private Boolean checkExistingCodes(UserObject u){
-       if(shared.userExists(u)){
-           JOptionPane.showMessageDialog(null, "Name alreay in use.");
+ private Boolean checkExistingCodes(barcodeObject u){
+       if(shared.objectExists(u)){
            return false;
-       }
-       if(shared.barcodeExists(u)){
-           JOptionPane.showMessageDialog(null, "Barcode already in use.");
-           return false;
-       }
-     
+       }     
        return true;
    }
- 
 }

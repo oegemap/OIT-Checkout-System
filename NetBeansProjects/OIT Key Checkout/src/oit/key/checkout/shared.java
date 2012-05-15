@@ -4,59 +4,51 @@
  */
 package oit.key.checkout;
 import java.util.ArrayList;
-import oit.key.checkout.Objects.*;
+//import oit.key.checkout.Objects.*;
+import oit.key.checkout.Objects.barcodeObject;
 import oit.key.checkout.fileIO.file;
+import javax.swing.JOptionPane;
 //import java.lang.Boolean;
 /**
  *
  * @author phillip.oegema
  */
 public class shared {
-    ArrayList<KeyObject> keys = new ArrayList();
-    ArrayList<UserObject> users = new ArrayList();
+    ArrayList<barcodeObject> objects = new ArrayList();
+
+    
     file file = new file();
     
     public void setup(){
-        file.openForWrite();
+        ArrayList<barcodeObject> bl = new ArrayList();
+        bl = file.readFile();
+        
+        if(bl !=null)
+        for(barcodeObject b: bl){
+            objects.add(b);
+        }
+        
+      //  file.openForWrite();
     }
 
-    public ArrayList<KeyObject> getKeys() {
-        return keys;
-    }
-
-    public ArrayList<UserObject> getUsers() {
-        return users;
+    public ArrayList<barcodeObject> getObjects() {
+        return objects;
     }
     
-    public boolean userExists(UserObject user){
-        for(UserObject u: users){
-            if(user.getName().equals(u.getName()))
+    public boolean objectExists(barcodeObject item){
+    if(objects != null){
+        for(barcodeObject b: objects){
+            if(b.getName().equals(item.getName())){
+                JOptionPane.showMessageDialog(null, "Name already in use.");
                 return true;
+            } 
+               
+            if(b.getBarcode().equals(item.getBarcode())){
+                JOptionPane.showMessageDialog(null, "Barcode already in use.");
+                return true;             
+            }
         }
-        return false;
     }
-    
-    public boolean keyExists(KeyObject key){
-        for(KeyObject k: keys){
-            if(key.getName().equals(k.getName()))
-                return true;
-        }
-        return false;
-    }
-    
-    public boolean barcodeExists(KeyObject key){
-        for(KeyObject k: keys){
-            if(key.getBarcode().equals(k.getBarcode()))
-                return true;
-        }
-        return false;
-    }
-    
-    public boolean barcodeExists(UserObject user){
-        for(UserObject u: users){
-            if(user.getBarcode().equals(u.getBarcode()))
-                return true;
-        }
         return false;
     }
     
@@ -65,12 +57,17 @@ public class shared {
         
     }
     
-    public void addKey(KeyObject key){
-        keys.add(key);
-        file.writeToFile(key);
+    public void addObject(barcodeObject bco){
+        objects.add(bco);
+       file.writeToFile(bco);
     }
     
-    public void addUser(UserObject user){
-        users.add(user);
+    public void addObjectToArray(barcodeObject bco){
+        objects.add(bco);
     }
+    
+    public void closeFile(){
+        file.closeFile();
+    }
+    
 }

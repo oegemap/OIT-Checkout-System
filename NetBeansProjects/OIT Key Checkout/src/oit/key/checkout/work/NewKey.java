@@ -4,20 +4,22 @@
  */
 package oit.key.checkout.work;
 
-import oit.key.checkout.Objects.KeyObject;
+import oit.key.checkout.Objects.barcodeObject;
 import java.lang.Boolean;
 import javax.swing.JOptionPane;
+import oit.key.checkout.shared;
 
 /**
  *
  * @author phillip.oegema
  */
 public class NewKey {
-    
+    shared shared = null;
    
-    public KeyObject createNewKey(String name, String barcode, String description){
-   
-        Boolean unique = checkExistingCodes();
+    public barcodeObject createNewKey(String name, String barcode, String description, shared s){
+        shared = s;
+        
+        Boolean unique;
         
         if(name.length() < 2){
             JOptionPane.showMessageDialog(null, "Name field too short.");
@@ -27,28 +29,32 @@ public class NewKey {
             JOptionPane.showMessageDialog(null, "Please enter a valid barcode key.");
             return null;
         }
-       
-        else if(unique == false){
-            JOptionPane.showMessageDialog(null, "Barcode currently already in use.");
-            return null;
-        }
-        
+     
         //All tests pass, create new new object
         else{
         
-            KeyObject key = new KeyObject();
+            barcodeObject key = new barcodeObject();
         
             key.setName(name);
             key.setBarcode(barcode);
             key.setDescription(description);
-        
-            return key;
+            key.setType('k');
+            
+            unique = checkExistingCodes(key);
+            
+            if(unique)
+                return key;
+            else
+                return null;
         }
     }
     
     
    //Modify to check for any existing barcodes with the same numbering as what was input. 
-   private Boolean checkExistingCodes(){
+   private Boolean checkExistingCodes(barcodeObject k){
+       if(shared.objectExists(k)){
+           return false;
+       }
        return true;
    }
 }

@@ -19,7 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import oit.key.checkout.shared;
 
 import oit.key.checkout.Objects.*;
 /**
@@ -36,10 +38,13 @@ public class file {
     
     ObjectOutputStream objectOut = null;
     
+    shared shared = null;
+    
     private void createFile(){
            
         try{
             file.createNewFile();
+            openForWrite();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Could not create File.\n" + e.toString());
@@ -48,9 +53,9 @@ public class file {
     
     public boolean openForWrite(){
         if(file.exists()){
-
            try{
-                objectOut = new ObjectOutputStream(new FileOutputStream(FILENAME));
+                objectOut = new ObjectOutputStream(new FileOutputStream(FILENAME, true));
+                System.err.println("Opened for write");
                 //http://www.javadb.com/write-to-file-using-bufferedoutputstream
                 //http://www.javadb.com/writing-objects-to-file-with-objectoutputstream
            }
@@ -68,11 +73,14 @@ public class file {
        }
     }
     
-    public void writeToFile(Object o){
+    public void writeToFile(barcodeObject o){
        if(file.exists()){
 
-           try{             
+           try{         
+               openForWrite();
+               System.out.println(o.getName());
                 objectOut.writeObject(o);
+                objectOut.close();
                 //http://www.javadb.com/write-to-file-using-bufferedoutputstream
                 //http://www.javadb.com/writing-objects-to-file-with-objectoutputstream
            }
@@ -84,25 +92,45 @@ public class file {
        else{
           if(JOptionPane.showConfirmDialog(null, "File does not exist. Create one?") == JOptionPane.YES_OPTION){
               createFile();
+              writeToFile(o);
           }
-       }
-        
-        
+       }    
     }
     
-    public void openForRead(){
-        
-        
+    public void closeFile(){
+        try{
+            objectOut.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error closing file." + e.toString());
+        }
     }
     
-    
-    public ArrayList<Object> readFile(){
-        ArrayList<Object> objects = new ArrayList();
+    public ArrayList<barcodeObject> readFile(){
+        barcodeObject bco;
+        ArrayList<barcodeObject> objects = new ArrayList();
         
-        
-        
-        
-        return objects;
+        if(file.exists()){
+            try{
+                FileInputStream fin = new FileInputStream(file);
+                System.out.println("after fin");
+                ObjectInputStream ois = new ObjectInputStream(fin);
+                System.out.println("after ois");
+                //bco = (barcodeObject) ois.readObject();
+               
+              
+                while((bco = (barcodeObject) ois.readObject()) != null){
+                    objects.add(bco);
+                    System.err.println(bco.getName());
+                }
+                    ois.close();
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Error reading file.\n" + e.toString());
+                return null;
+            }
+        }
+      return objects;  
     } 
 
 }

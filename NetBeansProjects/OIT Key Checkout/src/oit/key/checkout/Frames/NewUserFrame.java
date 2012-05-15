@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import oit.key.checkout.work.NewUser;
 import oit.key.checkout.work.NewUser;
 import oit.key.checkout.shared;
-import oit.key.checkout.Objects.*;
+import oit.key.checkout.Objects.barcodeObject;
 /**
  *
  * @author phillip.oegema
@@ -109,10 +109,10 @@ public class NewUserFrame extends javax.swing.JFrame {
     private void jButtonCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateUserActionPerformed
         NewUser nu = new NewUser();
         
-        UserObject user = nu.createNewUser(jTextFieldName.getText(),
+        barcodeObject user = nu.createNewUser(jTextFieldName.getText(),
                 jTextFieldBarcode.getText(), jComboBox1.getSelectedIndex(), shared); 
         if (user != null) {
-            shared.addUser(user);
+            shared.addObject(user);
             this.setVisible(false);
         }
           
