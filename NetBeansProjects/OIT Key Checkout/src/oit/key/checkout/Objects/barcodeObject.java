@@ -5,6 +5,8 @@
 package oit.key.checkout.Objects;
 
 import java.io.Serializable;
+import JSON.JSONObject;
+import JSON.JSONException;
 /**
  *
  * @author phillip.oegema
@@ -12,7 +14,6 @@ import java.io.Serializable;
 public class barcodeObject implements Serializable{
     private String name;
     private String barcode;
-    private int permissions;
     private String description;
     private char type; //'k' for key 'u' for user
 
@@ -40,14 +41,6 @@ public class barcodeObject implements Serializable{
         this.name = name;
     }
 
-    public int getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(int permissions) {
-        this.permissions = permissions;
-    }
-
     public char getType() {
         return type;
     }
@@ -56,5 +49,17 @@ public class barcodeObject implements Serializable{
         this.type = type;
     }
     
-    
+    public JSONObject getJSONObject(){
+        JSONObject json = new JSONObject();
+        try{
+            json.put("type", type);
+            json.put("name", name);
+            json.put("barcode", barcode);
+            json.put("description", description);
+        }catch(JSONException je){
+            System.out.println(je.toString());
+            return null;
+        }
+        return json;
+    }
 }

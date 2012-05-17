@@ -4,24 +4,13 @@
  */
 package oit.key.checkout.fileIO;
 
+import JSON.JSONObject;
+import java.io.*;
 import java.lang.Boolean;
 import javax.swing.JOptionPane;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import oit.key.checkout.shared;
+import java.io.PrintWriter;
 
 import oit.key.checkout.Objects.*;
 /**
@@ -35,9 +24,10 @@ public class file {
     private final String FILENAME = "C:\\Key Files\\records";
     
     File file = new File(FILENAME);
-    
-    ObjectOutputStream objectOut = null;
-    
+ 
+   // BufferedOutputStream bufferedOutput = null;
+   
+    PrintWriter out = null;
     shared shared = null;
     
     private void createFile(){
@@ -54,7 +44,8 @@ public class file {
     public boolean openForWrite(){
         if(file.exists()){
            try{
-                objectOut = new ObjectOutputStream(new FileOutputStream(FILENAME, true));
+              out= new PrintWriter(new FileWriter(FILENAME, true));
+                //bufferedOutput = new BufferedOutputStream(new FileOutputStream(FILENAME, true));
                 System.err.println("Opened for write");
                 //http://www.javadb.com/write-to-file-using-bufferedoutputstream
                 //http://www.javadb.com/writing-objects-to-file-with-objectoutputstream
@@ -79,10 +70,10 @@ public class file {
            try{         
                openForWrite();
                System.out.println(o.getName());
-                objectOut.writeObject(o);
-                objectOut.close();
+                out.println(o.getJSONObject().toString());
                 //http://www.javadb.com/write-to-file-using-bufferedoutputstream
                 //http://www.javadb.com/writing-objects-to-file-with-objectoutputstream
+                out.close();
            }
            catch(Exception e){
                JOptionPane.showMessageDialog(null, "Error writing to file.\n" + e.toString());
@@ -99,7 +90,7 @@ public class file {
     
     public void closeFile(){
         try{
-            objectOut.close();
+            out.close();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error closing file." + e.toString());
@@ -132,5 +123,54 @@ public class file {
         }
       return objects;  
     } 
+    
+    public ArrayList<barcodeObject> readFromFile() {
+        barcodeObject bco = new barcodeObject();
+        ArrayList<barcodeObject> objects = new ArrayList();
+        
+        BufferedReader bufferedReader = null;
+        
+        try {
+            
+            //Construct the BufferedReader object
+            bufferedReader = new BufferedReader(new FileReader(FILENAME));
+            
+            String line = null;
+            
+            while ((line = bufferedReader.readLine()) != null) {
+                //Process the data, here we just print it out
+                System.out.println(line);
+                try{
+                    JSONObject json = new JSONObject(line);
+                    bco.setName(json.getString("name"));
+                    bco.setBarcode(json.getString("barcode"));
+                    bco.setType(json.getString("type"));
+                    bco.setDescription(json.getString("description"));
+                   
+                    
+                    System.out.println(json.getString("type"));
+                    System.out.println(json.getString("name"));
+                    System.out.println(json.getString("barcode"));
+                    System.out.println(json.getString("description"));
+                }catch(JSON.JSONException je){
+                    System.out.println(je.toString());
+                }
+                
+            }
+            
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            //Close the BufferedReader
+            try {
+                if (bufferedReader != null)
+                    bufferedReader.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
 }
