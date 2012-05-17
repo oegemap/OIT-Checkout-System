@@ -147,17 +147,18 @@ public class file {
                     bco.setType(json.getString("type"));
                     bco.setDescription(json.getString("description"));
                    
+                    objects.add(bco);
                     
                     System.out.println(json.getString("type"));
                     System.out.println(json.getString("name"));
                     System.out.println(json.getString("barcode"));
                     System.out.println(json.getString("description"));
+                
+                    return objects;
                 }catch(JSON.JSONException je){
                     System.out.println(je.toString());
                 }
-                
             }
-            
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -171,6 +172,6 @@ public class file {
                 ex.printStackTrace();
             }
         }
+        return objects;
     }
-
 }

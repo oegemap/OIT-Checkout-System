@@ -15,7 +15,7 @@ public class barcodeObject implements Serializable{
     private String name;
     private String barcode;
     private String description;
-    private char type; //'k' for key 'u' for user
+    private String type; //"key" for key or "user" for user
 
     public String getBarcode() {
         return barcode;
@@ -41,11 +41,11 @@ public class barcodeObject implements Serializable{
         this.name = name;
     }
 
-    public char getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
     

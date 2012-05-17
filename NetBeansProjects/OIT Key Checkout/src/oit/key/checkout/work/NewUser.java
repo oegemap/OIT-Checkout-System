@@ -34,9 +34,12 @@ public class NewUser {
     
             user.setName(name);
             user.setBarcode(barcode);
-            if(permmissions == 0)
-            user.setDescription(permissions);
-            user.setType('u');
+            if(permissions == 0)
+                user.setDescription("administrator");
+            else
+                user.setDescription("student");
+            
+            user.setType("user");
             
             unique = checkExistingCodes(user);
             if(!unique)

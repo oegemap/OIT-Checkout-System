@@ -21,7 +21,7 @@ public class shared {
     
     public void setup(){
         ArrayList<barcodeObject> bl = new ArrayList();
-        bl = file.readFile();
+        bl = file.readFromFile();
         
         if(bl !=null)
         for(barcodeObject b: bl){

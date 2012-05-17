@@ -109,8 +109,7 @@ public class NewUserFrame extends javax.swing.JFrame {
     private void jButtonCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateUserActionPerformed
         NewUser nu = new NewUser();
         
-        barcodeObject user = nu.createNewUser(jTextFieldName.getText(),
-                jTextFieldBarcode.getText(), jComboBox1.getSelectedIndex(), shared); 
+        barcodeObject user = nu.createNewUser(jTextFieldName.getText(), jTextFieldBarcode.getText(), jComboBox1.getSelectedIndex(), shared); 
         if (user != null) {
             shared.addObject(user);
             this.setVisible(false);

@@ -38,7 +38,7 @@ public class NewKey {
             key.setName(name);
             key.setBarcode(barcode);
             key.setDescription(description);
-            key.setType('k');
+            key.setType("key");
             
             unique = checkExistingCodes(key);
             
