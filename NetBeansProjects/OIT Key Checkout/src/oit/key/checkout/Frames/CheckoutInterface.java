@@ -4,6 +4,7 @@
  */
 package oit.key.checkout.Frames;
 import oit.key.checkout.shared;
+import oit.key.checkout.Objects.barcodeObject;
 /**
  *
  * @author phillip.oegema
@@ -11,6 +12,7 @@ import oit.key.checkout.shared;
 public class CheckoutInterface extends javax.swing.JFrame {
 
     static shared shared;
+
     /**
      * Creates new form CheckoutInterface
      */
@@ -92,6 +94,8 @@ public class CheckoutInterface extends javax.swing.JFrame {
         String scanned = jTextFieldBarcodeInput.getText();
         jTextFieldBarcodeInput.setText("");
         jTextFieldBarcodeInput.requestFocusInWindow();
+        
+        jTextFieldOnDuty.setText(scanned);
     }//GEN-LAST:event_jButtonEnterActionPerformed
 
     /**
@@ -100,10 +104,7 @@ public class CheckoutInterface extends javax.swing.JFrame {
     public static void main(shared s) {
         
         shared = s;
-        shared.setup();
-        
-        
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
