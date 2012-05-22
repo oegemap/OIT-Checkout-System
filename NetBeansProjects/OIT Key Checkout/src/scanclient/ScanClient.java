@@ -13,7 +13,9 @@ public class ScanClient {
     
     static shared shared = new shared();
     
+    
     public static void main(String[] args) {
+        shared.setup();
         CheckoutInterface.main(shared);      
     }
     

@@ -15,7 +15,7 @@ public class clock {
     public void clockUser(String barcode, shared s){
         shared = s;
         
-        if(shared.isUser()){
+        if(shared.isUser(barcode)){
             
         }
     }

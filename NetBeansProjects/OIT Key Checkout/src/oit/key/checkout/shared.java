@@ -70,4 +70,12 @@ public class shared {
         file.closeFile();
     }
     
+    public boolean isUser(String barcode){
+        for(barcodeObject b: objects){
+            if(barcode.equals(b.getBarcode()))
+                return true;
+        }
+        return false;
+    }
+    
 }
