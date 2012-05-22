@@ -125,7 +125,7 @@ public class file {
     } 
     
     public ArrayList<barcodeObject> readFromFile() {
-        barcodeObject bco = new barcodeObject();
+        
         ArrayList<barcodeObject> objects = new ArrayList();
         
         BufferedReader bufferedReader = null;
@@ -138,6 +138,7 @@ public class file {
             String line = null;
             
             while ((line = bufferedReader.readLine()) != null) {
+                barcodeObject bco = new barcodeObject();
                 //Process the data, here we just print it out
                 System.out.println(line);
                 try{
@@ -154,9 +155,9 @@ public class file {
                     System.out.println(json.getString("barcode"));
                     System.out.println(json.getString("description"));
                 
-                    return objects;
+                    
                 }catch(JSON.JSONException je){
-                    System.out.println(je.toString());
+                    System.out.println("Error reading in file" + je.toString());
                 }
             }
         } catch (FileNotFoundException ex) {
@@ -172,6 +173,7 @@ public class file {
                 ex.printStackTrace();
             }
         }
+        
         return objects;
     }
 }

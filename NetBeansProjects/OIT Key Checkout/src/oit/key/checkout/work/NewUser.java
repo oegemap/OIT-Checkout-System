@@ -42,10 +42,10 @@ public class NewUser {
             user.setType("user");
             
             unique = checkExistingCodes(user);
-            if(!unique)
-                return null;
-            else
+            if(unique)
                 return user;
+            else
+                return null;
         }
 }
 
