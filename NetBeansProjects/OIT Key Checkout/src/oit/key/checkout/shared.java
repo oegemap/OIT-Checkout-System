@@ -6,6 +6,7 @@ package oit.key.checkout;
 import java.util.ArrayList;
 //import oit.key.checkout.Objects.*;
 import oit.key.checkout.Objects.barcodeObject;
+import oit.key.checkout.Objects.clockedObject;
 import oit.key.checkout.fileIO.file;
 import javax.swing.JOptionPane;
 //import java.lang.Boolean;
@@ -16,8 +17,9 @@ import javax.swing.JOptionPane;
 public class shared {
     ArrayList<barcodeObject> objects = new ArrayList();
 
-    
     file file = new file();
+    
+    private ArrayList<clockedObject> techsOnDuty = new ArrayList();
     
     public void setup(){
         ArrayList<barcodeObject> bl = new ArrayList();
@@ -77,5 +79,24 @@ public class shared {
         }
         return false;
     }
+
+    public ArrayList<clockedObject> getTechsOnDuty() {
+        return techsOnDuty;
+    }
     
+    public void clockTechOnDuty(clockedObject co){
+        boolean onDuty = false;
+        int index = -1;
+        
+        for(clockedObject t: techsOnDuty)
+            if(t.getBarcodeObject().getBarcode().equals(co.getBarcodeObject().getBarcode())){
+                onDuty = true;
+                index = techsOnDuty.indexOf(t);
+            }
+            if(onDuty)
+                techsOnDuty.remove(index);
+            else
+                techsOnDuty.add(co);
+    }
+
 }
