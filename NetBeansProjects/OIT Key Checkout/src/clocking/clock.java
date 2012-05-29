@@ -12,11 +12,17 @@ import oit.key.checkout.shared;
  */
 public class clock {
     shared shared;
-    public void clockUser(String barcode, shared s){
+    public boolean clockObject(String barcode, shared s){
         shared = s;
-        
+        barcodeObject b;
         if(shared.isUser(barcode)){
-            
+            b = shared.getBarcodeObject(barcode);
+            shared.clockTechOnDuty(b);
+            return false;
         }
+        else if(shared.isKey(barcode)){
+            return true;
+        }
+        return false;
     }
 }

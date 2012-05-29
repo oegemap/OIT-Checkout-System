@@ -14,7 +14,25 @@ public class clockedObject {
     private Date checkinTime;
     private Date checkoutTime;
     private barcodeObject barcodeObject;
+    private String type;
+    private barcodeObject sup;
 
+    public barcodeObject getSup() {
+        return sup;
+    }
+
+    public void setSup(barcodeObject sup) {
+        this.sup = sup;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public Date getCheckinTime() {
         return checkinTime;
     }

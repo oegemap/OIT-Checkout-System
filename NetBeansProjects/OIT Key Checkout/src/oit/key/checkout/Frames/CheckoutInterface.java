@@ -5,6 +5,8 @@
 package oit.key.checkout.Frames;
 import oit.key.checkout.shared;
 import oit.key.checkout.Objects.barcodeObject;
+import clocking.clock;
+import javax.swing.JOptionPane;
 /**
  *
  * @author phillip.oegema
@@ -12,6 +14,7 @@ import oit.key.checkout.Objects.barcodeObject;
 public class CheckoutInterface extends javax.swing.JFrame {
 
     static shared shared;
+    clock clock = new clock();
 
     /**
      * Creates new form CheckoutInterface
@@ -32,7 +35,8 @@ public class CheckoutInterface extends javax.swing.JFrame {
         jButtonEnter = new javax.swing.JButton();
         jTextFieldBarcodeInput = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jTextFieldOnDuty = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaTechsOnDuty = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,8 +54,10 @@ public class CheckoutInterface extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Techs Currently On Duty");
 
-        jTextFieldOnDuty.setEditable(false);
-        jTextFieldOnDuty.setFocusable(false);
+        jTextAreaTechsOnDuty.setColumns(20);
+        jTextAreaTechsOnDuty.setEditable(false);
+        jTextAreaTechsOnDuty.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaTechsOnDuty);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,8 +68,8 @@ public class CheckoutInterface extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextFieldOnDuty, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
                         .addComponent(jTextFieldBarcodeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonEnter)))
@@ -75,15 +81,15 @@ public class CheckoutInterface extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldOnDuty))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(233, 233, 233)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextFieldBarcodeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonEnter))
-                        .addGap(0, 208, Short.MAX_VALUE)))
+                        .addGap(0, 208, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
 
@@ -91,11 +97,18 @@ public class CheckoutInterface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
+        boolean more = false;
         String scanned = jTextFieldBarcodeInput.getText();
         jTextFieldBarcodeInput.setText("");
         jTextFieldBarcodeInput.requestFocusInWindow();
         
-        jTextFieldOnDuty.setText(scanned);
+        more = clock.clockObject(scanned, shared);
+        
+        if(more){
+            String user = JOptionPane.showInputDialog(null, "Please scan a user to check this out to.");
+        }
+        
+        jTextAreaTechsOnDuty.setText(shared.getNamesOnDuty());
     }//GEN-LAST:event_jButtonEnterActionPerformed
 
     /**
@@ -115,7 +128,8 @@ public class CheckoutInterface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEnter;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaTechsOnDuty;
     private javax.swing.JTextField jTextFieldBarcodeInput;
-    private javax.swing.JTextField jTextFieldOnDuty;
     // End of variables declaration//GEN-END:variables
 }
