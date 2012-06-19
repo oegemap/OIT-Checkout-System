@@ -5,17 +5,37 @@
 package oit.key.checkout.Objects;
 import java.util.Date;
 import oit.key.checkout.Objects.barcodeObject;
+import JSON.JSONObject;
+import JSON.JSONException;
 /**
  *
  * @author phillip.oegema
  */
 public class clockedObject {
-    private String name;
-    private Date checkinTime;
-    private Date checkoutTime;
-    private barcodeObject barcodeObject;
-    private String type;
-    private barcodeObject sup;
+    private String name = "";
+    private Date checkinTime = null;
+    private Date checkoutTime = null;
+    private barcodeObject barcodeObject = null;
+    private String type = "";
+    private barcodeObject sup = null;
+    private String inOrOut = "";
+    private barcodeObject checkedOutTo = null;
+
+    public barcodeObject getCheckedOutTo() {
+        return checkedOutTo;
+    }
+
+    public void setCheckedOutTo(barcodeObject checkedOutTo) {
+        this.checkedOutTo = checkedOutTo;
+    }
+
+    public String getInOrOut() {
+        return inOrOut;
+    }
+
+    public void setInOrOut(String inOrOut) {
+        this.inOrOut = inOrOut;
+    }
 
     public barcodeObject getSup() {
         return sup;
@@ -64,5 +84,38 @@ public class clockedObject {
     public void setBarcodeObject(barcodeObject barcodeObject) {
         this.barcodeObject = barcodeObject;
     }
+    
+     public JSONObject getJSONObject(){
+        JSONObject json = new JSONObject();
+        
+        try{
+            if(type.equals("user")){
+                json.put("type", type);
+                json.put("name", name);
+                json.put("barcode", barcodeObject.getBarcode());
+                json.put("inOrOut", inOrOut);
+                json.put("checkInTime", checkinTime.toString());
+                if(inOrOut.equals("out"))
+                    json.put("checkOutTime", checkoutTime.toString());
+            }
+            else{
+                json.put("type", type);
+                json.put("name", name);
+                json.put("barcode", barcodeObject.getBarcode());
+                json.put("checkedOutTo", checkedOutTo.getName());
+                json.put("checkedOutToBarcode", checkedOutTo.getBarcode());
+                json.put("inOrOut", inOrOut);
+                json.put("checkOutTime", checkoutTime.toString());
+                if(inOrOut.equals("in"))
+                    json.put("checkInTime", checkinTime.toString());
+                
+            }
+        }catch(JSONException je){
+            System.out.println(je.toString());
+            return null;
+        }
+        return json;
+    }
+    
     
 }

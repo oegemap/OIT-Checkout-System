@@ -6,6 +6,7 @@ package clocking;
 
 import oit.key.checkout.Objects.barcodeObject;
 import oit.key.checkout.shared;
+import javax.swing.JOptionPane;
 /**
  *
  * @author phillip.oegema
@@ -24,5 +25,28 @@ public class clock {
             return true;
         }
         return false;
+    }
+    
+    public void checkoutKey(String key, String user){
+        
+        barcodeObject userObject = shared.getBarcodeObject(user);
+        barcodeObject keyObject = shared.getBarcodeObject(key);
+        
+        if(userObject.getType().equals("user") && 
+                keyObject.getType().equals("key")){
+            
+            shared.checkoutKey(keyObject, userObject);
+        
+        }
+    }
+        
+        public void checkinKey(String key){
+            barcodeObject keyObject = shared.getBarcodeObject(key);
+        
+        if(keyObject.getType().equals("key")){
+            
+            shared.checkoutKey(keyObject, null);
+        
+        }        
     }
 }

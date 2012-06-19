@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/H:/OIT-Checkout-System/NetBeansProjects/OIT%20Key%20Checkout/src/oit/key/checkout/Frames/CheckoutInterface.java</file>
+        <file>file:/H:/OIT-Checkout-System/NetBeansProjects/OIT%20Key%20Checkout/src/scanclient/ScanClient.java</file>
+        <file>file:/H:/OIT-Checkout-System/NetBeansProjects/OIT%20Key%20Checkout/src/clocking/clock.java</file>
+        <file>file:/H:/OIT-Checkout-System/NetBeansProjects/OIT%20Key%20Checkout/src/oit/key/checkout/shared.java</file>
+        <file>file:/H:/OIT-Checkout-System/NetBeansProjects/OIT%20Key%20Checkout/src/oit/key/checkout/Objects/clockedObject.java</file>
+    </open-files>
 </project-private>

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import oit.key.checkout.Objects.barcodeObject;
 import oit.key.checkout.Objects.clockedObject;
 import oit.key.checkout.fileIO.file;
+import oit.key.checkout.fileIO.recordsFile;
 import javax.swing.JOptionPane;
 import java.util.Date;
 //import java.lang.Boolean;
@@ -20,7 +21,10 @@ public class shared {
 
     file file = new file();
     
+    recordsFile recordsFile = new recordsFile();
+    
     private ArrayList<clockedObject> techsOnDuty = new ArrayList();
+    private ArrayList<clockedObject> keysCheckedOut = new ArrayList();
     
     public void setup(){
         ArrayList<barcodeObject> bl = new ArrayList();
@@ -34,6 +38,14 @@ public class shared {
       //  file.openForWrite();
     }
 
+    public boolean isKeyCheckedOut(String barcode){
+        for(clockedObject c: keysCheckedOut){
+            if(c.getBarcodeObject().getBarcode().equals(barcode))
+                return true;
+        }
+        return false;
+    }
+    
     public ArrayList<barcodeObject> getObjects() {
         return objects;
     }
@@ -102,15 +114,23 @@ public class shared {
                 onDuty = true;
                 index = techsOnDuty.indexOf(t);
             }
-            if(onDuty)
+            if(onDuty){
+                clockedObject goingOut = techsOnDuty.get(index);
+                goingOut.setInOrOut("out");
+                goingOut.setCheckoutTime(new Date());
+                writeToRecordsFile(goingOut);
                 techsOnDuty.remove(index);
+                
+            }
             else{
                 clockedObject clocking = new clockedObject();
                 clocking.setBarcodeObject(co);
                 clocking.setCheckinTime(new Date());
                 clocking.setName(co.getName());
                 clocking.setType("user");
-                techsOnDuty.add(clocking);            
+                clocking.setInOrOut("in");
+                techsOnDuty.add(clocking);  
+                writeToRecordsFile(clocking);
             }
     }
     
@@ -126,10 +146,57 @@ public class shared {
         String techs = "";
         
         for(clockedObject t: techsOnDuty){
-            techs = techs.concat(t.getName() + "\n");
+            techs = techs.concat(t.getName());
+          /*  for(clockedObject k: keysCheckedOut){
+                if(t.getBarcodeObject().getBarcode().equals(k.getCheckedOutTo().getBarcode()))
+                    techs = techs.concat(" (" + k.getName() + ")");
+            }*/
+            techs = techs.concat("\n");         
         }
-        System.out.println("Techs: " + techs);
         return techs;
     }
-
+    
+    public String getKeysCheckedOut(){
+        String keys = "";
+        for(clockedObject k: keysCheckedOut){
+            keys = keys.concat(k.getName() + " " + k.getCheckedOutTo().getName() + " " + k.getCheckoutTime().toString() + "\n");
+        }
+        return keys;
+    }
+    
+    public void writeToRecordsFile(clockedObject co){
+        recordsFile.writeToFile(co);
+    }
+    
+    public void checkoutKey(barcodeObject key, barcodeObject user){
+        clockedObject co = new clockedObject();
+        boolean out = false;
+        int index = -1;
+        for(clockedObject c: keysCheckedOut){
+            //Checkin key
+            if(c.getBarcodeObject().getBarcode().equals(key.getBarcode())){
+                index = keysCheckedOut.indexOf(c);
+                co = c;
+                out = true;           
+            }
+        }
+        if(out){ 
+            co.setCheckinTime(new Date());
+            co.setInOrOut("in");
+            
+        }
+        else{
+           co.setBarcodeObject(key);
+            co.setCheckedOutTo(user);
+            co.setCheckoutTime(new Date());
+            co.setInOrOut("out");
+            co.setName(key.getName());
+            co.setType("key");
+            keysCheckedOut.add(co); 
+        }
+        writeToRecordsFile(co);
+        
+        if(out && index >= 0 && index <= keysCheckedOut.size())
+            keysCheckedOut.remove(index);
+    }
 }

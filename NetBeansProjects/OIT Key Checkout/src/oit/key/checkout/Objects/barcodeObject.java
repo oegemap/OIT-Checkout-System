@@ -62,4 +62,12 @@ public class barcodeObject implements Serializable{
         }
         return json;
     }
+    
+    public boolean isAdmin(){
+        if(this.description.equals("administrator"))
+            return true;
+        else
+            return false;               
+    
+    }
 }

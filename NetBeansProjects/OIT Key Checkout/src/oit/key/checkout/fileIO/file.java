@@ -21,10 +21,10 @@ import oit.key.checkout.Objects.*;
 
 
 public class file {
-    private final String FILENAME = "C:\\Key Files\\records";
+    private String filename = "C:\\Key Files\\objects";
     
-    File file = new File(FILENAME);
- 
+    File file = new File(filename);
+    
    // BufferedOutputStream bufferedOutput = null;
    
     PrintWriter out = null;
@@ -44,17 +44,12 @@ public class file {
     public boolean openForWrite(){
         if(file.exists()){
            try{
-              out= new PrintWriter(new FileWriter(FILENAME, true));
-                //bufferedOutput = new BufferedOutputStream(new FileOutputStream(FILENAME, true));
-                System.err.println("Opened for write");
-                //http://www.javadb.com/write-to-file-using-bufferedoutputstream
-                //http://www.javadb.com/writing-objects-to-file-with-objectoutputstream
+              out= new PrintWriter(new FileWriter(filename, true));          
            }
            catch(Exception e){
                JOptionPane.showMessageDialog(null, "Error opening file.\n" + e.toString());
                return false;
            }
-          // BufferedOutputStream bs = new BufferedOutputStream(out);
            return true;
         }
        else{
@@ -66,13 +61,9 @@ public class file {
     
     public void writeToFile(barcodeObject o){
        if(file.exists()){
-
            try{         
                openForWrite();
-               System.out.println(o.getName());
                 out.println(o.getJSONObject().toString());
-                //http://www.javadb.com/write-to-file-using-bufferedoutputstream
-                //http://www.javadb.com/writing-objects-to-file-with-objectoutputstream
                 out.close();
            }
            catch(Exception e){
@@ -133,7 +124,7 @@ public class file {
         try {
             
             //Construct the BufferedReader object
-            bufferedReader = new BufferedReader(new FileReader(FILENAME));
+            bufferedReader = new BufferedReader(new FileReader(filename));
             
             String line = null;
             
